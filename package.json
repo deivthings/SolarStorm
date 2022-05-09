@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "pinia": "^2.0.14",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.9",
     "@vitejs/plugin-vue": "^2.3.1",
     "vite": "^2.9.7",
     "vite-plugin-windicss": "^1.8.4",
