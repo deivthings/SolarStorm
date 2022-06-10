@@ -16,6 +16,16 @@
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+html,body {
+  height: 100%;
+}
+body {
+  background-color: #27272A;
+  min-height: 100vh;
+}
 #app {
   color: antiquewhite;
 /*   font-family: Avenir, Helvetica, Arial, sans-serif;

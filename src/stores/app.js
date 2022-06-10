@@ -7,13 +7,15 @@ export const useAppStore = defineStore({
     // Ronda ( cada jugador es una ronda - no todos los jugadores componen una ronda)
     round: 0,
 
-    // El mazo de daño. Se contruye en home.vue
+    // El mazo de daño.
     damageDeck: []
   }),
+
   getters: {
     getRoundDamageCard: (state) => state.damageDeck[state.round - 1],
     doubleCount: (state) => state.counter * 2
   },
+  
   actions: {
     incrementRound() {
       this.round++

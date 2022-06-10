@@ -1,3 +1,12 @@
+# intalling icons
+
+npm i --save-dev vite-plugin-purge-icons unplugin-icons @iconify/json
+npm i @iconify/iconify
+
+## main.js
+import '@purge-icons/generated'
+
+## vite.config.js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
@@ -10,7 +19,6 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
 
-import postcssNesting from 'postcss-nesting';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,12 +43,9 @@ export default defineConfig({
       defaultStyle: '', // Style apply to icons
       defaultClass: 'ms-Icon', // Class names apply to icons
     }),
-  ],
-  css: {
-    postcss: {
-      plugins: [
-        postcssNesting
-      ]
-    }
-  }
+  ]
 })
+
+
+
+# 

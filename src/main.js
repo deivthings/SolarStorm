@@ -4,7 +4,7 @@ import { createPinia } from 'pinia'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import { router } from './router.js'
-
+import '@purge-icons/generated'
 
 const app = createApp(App)
 app.use(createPinia())
