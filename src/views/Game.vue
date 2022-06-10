@@ -45,6 +45,9 @@ onBeforeMount(() => buildDamageEventsDeck())
 
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css" scoped>
+h2 {
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  color: tomato;
+}
 </style>

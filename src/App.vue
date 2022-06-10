@@ -16,6 +16,8 @@
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
+
 * {
   box-sizing: border-box;
 }
