@@ -1,4 +1,4 @@
-# Damage Deck App for Solar Storm gameboard ( in progress ....)
+# Damage Deck App for Solar Storm gameboard ( on progress ....)
 
 https://solar-storm.netlify.app/
 
