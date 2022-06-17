@@ -1,13 +1,28 @@
 <template>
   <article>
-    <h1>Game</h1>
-    <h2>Round: {{ appStore.round }}</h2>
-    <button @click="triggerDamageCard()">Trigger Damage Phase</button>
-    <bx-Icon icon="ic:sharp-edit-note" />
-    <h2 v-if="loadingEvent">LOADING TIME.....</h2>
-    <div v-else>
-      <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent"/>
-    </div>
+
+    <header class="game-header mb-8">
+      <h1>SOLAR STORM DAMAGE APP</h1>
+      <h1>
+        <span class="mr-3">ROUND</span>  
+        <span class="badge">{{ appStore.round }}</span>
+      </h1>
+    </header>
+
+    <section class="text-center mb-8">
+      <button class="btn-action" @click="triggerDamageCard()">
+        <bx-Icon icon="ant-design:security-scan-filled" size="xxl" />
+        <div>
+          Trigger Damage Phase
+        </div> 
+      </button>
+    </section>
+    
+    <section v-if="loadingEvent">
+      <h2>LOADING TIME.....</h2>
+      <scanning-ship></scanning-ship>
+    </section>
+    <div v-else> <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent"/> </div>
   </article>
 </template>
 
@@ -16,11 +31,12 @@ import { onBeforeMount, ref } from "@vue/runtime-core"
 import { useAppStore } from '@/stores/app'
 import { buildDamageEventsDeck } from '@/lib/BuildEventsDeck'
 import BasicDamageEvent from '@/components/BasicDamageEvent.vue'
+import scanningShipVue from "@/components/scanning-ship.vue"
 
 const appStore = useAppStore()
 const currentDamageEvent = ref(null)
 const loadingEvent = ref(false)
-const LOADING_EVENT_DELAY = 3000
+const LOADING_EVENT_DELAY = 1000
 
 /**
  * On click trigger damage event button
@@ -46,8 +62,39 @@ onBeforeMount(() => buildDamageEventsDeck())
 </script>
 
 <style lang="css" scoped>
-h2 {
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 1px 1px 10px 1px var(--color-primary);
+}
+
+h2, h1 {
   font-family: 'Kdam Thmor Pro', sans-serif;
-  color: tomato;
+}
+
+.badge {
+  background-color: var(--color-primary);
+  padding: .3rem .8rem;
+  border-radius: 20px;
+  font-size: 1.3rem;
+}
+
+.btn-action {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 1rem;
+  font-size: 1.2em;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-action:hover {
+  background-color: var(--color-primary-dark);
 }
 </style>

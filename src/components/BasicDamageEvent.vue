@@ -4,9 +4,12 @@
     <h2>{{  }}</h2>
     <section class="card-event">
       <ul class="matrix-rooms">
-        <li :class="`room${index + 1}`" v-for="(room, index) in rooms" :key="index">
+        <li :class="['room', `room${index + 1}`, {'has-damage': room === 1}]" v-for="(room, index) in rooms" :key="index">
+          <h6 class="room-label">room {{ index + 1 }}</h6>
           <!-- room value::::: {{ room }} -->
-          <bx-Icon v-if="room === 1" icon="bi:x-circle-fill" class="text-rose-500" size="xl"/>
+          <!-- <bx-Icon v-if="room === 1" icon="bi:x-circle-fill" class="text-rose-500" size="xl"/> -->
+          <bx-Icon v-if="room === 1" icon="bx:error" class="text-rose-500" size="xxl"/>
+          
         </li>
       </ul>
     </section>
@@ -63,27 +66,43 @@ const addDamageToRooms = () => {
 <style scoped>
 .card-event {
   margin: 0 auto;
-  border: 1px solid rgb(197, 176, 176);
-  border-radius: 10px;
-  padding: 1rem;
-  width: 80%;
-  
-  li {
-    background: #000;
-    border-radius: 10px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 3rem;
+  width: clamp(715px, 60%, 800px);
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 1px 1px 10px 1px var(--color-primary);
 }
 
 .matrix-rooms {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+}
+
+.room {
+  position: relative;
+  background: #000;
+  border-radius: 10px;
+  height: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-primary);
+}
+
+.room.has-damage {
+  border: 2px solid var(--color-error);
+}
+
+.room-label {
+  position: absolute;
+  font-size: .8rem;
+  font-family: var(--font-primary);
+  top: 5px;
+  left: 12px;
 }
 
 .room1 { grid-area: 1 / 1 / 2 / 2; }
