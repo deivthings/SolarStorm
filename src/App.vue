@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section style="min-height: 100vh;">
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <router-view v-slot="{ Component }">
       <transition name="fadeX" mode="out-in">
@@ -43,6 +43,7 @@ body {
 }
 #app {
   color: antiquewhite;
+  min-height: 100%;
 /*   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

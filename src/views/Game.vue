@@ -1,5 +1,5 @@
 <template>
-  <article>
+  <article class="wrapper-game">
 
     <header class="game-header mb-8">
       <h1>SOLAR STORM DAMAGE APP</h1>
@@ -18,8 +18,7 @@
       </button>
     </section>
     
-    <section v-if="loadingEvent">
-      <h2>LOADING TIME.....</h2>
+    <section v-if="true">
       <scanning-ship></scanning-ship>
     </section>
     <div v-else> <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent"/> </div>
@@ -36,7 +35,7 @@ import scanningShipVue from "@/components/scanning-ship.vue"
 const appStore = useAppStore()
 const currentDamageEvent = ref(null)
 const loadingEvent = ref(false)
-const LOADING_EVENT_DELAY = 1000
+const LOADING_EVENT_DELAY = 2000
 
 /**
  * On click trigger damage event button
@@ -62,6 +61,9 @@ onBeforeMount(() => buildDamageEventsDeck())
 </script>
 
 <style lang="css" scoped>
+.wrapper-game {
+  min-height: 100vh;
+}
 .game-header {
   display: flex;
   align-items: center;
