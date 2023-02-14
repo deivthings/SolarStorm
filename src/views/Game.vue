@@ -10,18 +10,22 @@
     </header>
 
     <section class="text-center mb-8">
-      <button class="btn-action" @click="triggerDamageCard()">
+      <button class="btn-action" @click="triggerDamageCard()" :disabled="loadingEvent">
         <bx-Icon icon="ant-design:security-scan-filled" size="xxl" />
         <div>
           Trigger Damage Phase
         </div> 
       </button>
     </section>
-    
-    <section v-if="true">
-      <scanning-ship></scanning-ship>
+
+    <section v-auto-animate>
+      <div v-if="loadingEvent">
+        <scanning-ship></scanning-ship>
+      </div>
+      <div v-else> 
+        <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent" v-auto-animate/> 
+      </div>
     </section>
-    <div v-else> <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent"/> </div>
   </article>
 </template>
 
@@ -30,6 +34,7 @@ import { onBeforeMount, ref } from "@vue/runtime-core"
 import { useAppStore } from '@/stores/app'
 import { buildDamageEventsDeck } from '@/lib/BuildEventsDeck'
 import BasicDamageEvent from '@/components/BasicDamageEvent.vue'
+import TextAnim from '@/components/testanim.vue'
 import scanningShipVue from "@/components/scanning-ship.vue"
 
 const appStore = useAppStore()

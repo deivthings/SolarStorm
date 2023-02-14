@@ -1,8 +1,11 @@
 <template>
-  <div class="wapper-loader text-center">
-    <h3 class="loader-text">SCANNING SHIP</h3>
-    <span class="loader"></span>
-  </div>
+  <!-- https://cssloaders.github.io/ -->
+  <section class="wrapper-component">
+    <div class="wapper-loader text-center">
+      <h3 class="loader-text">SCANNING SHIP</h3>
+      <span class="loader"></span>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -10,11 +13,15 @@
 </script>
 
 <style scoped>
+.wrapper-component {
+  position: relative;
+  height: 300px;
+}
 .wapper-loader {
   position: absolute;
   top: 50%;
-  transform: translate(-50%, -50%);
   left: 50%;
+  transform: translate(-50%, -50%);
 }
 .loader-text {
   position: absolute;
@@ -31,6 +38,9 @@
   padding-left: 1rem;
   border-radius: 10px;
   min-width: 250px;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  padding-top: .2rem;
+  padding-bottom: .2rem;
 }
 .loader {
   width: 148px;
