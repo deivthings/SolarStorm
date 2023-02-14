@@ -10,6 +10,9 @@ export const buildDamageEventsDeck = (totalNumCards = 24, leapHardnessValue = 8)
   const appStore = useAppStore()
   const damageEvents = DamageEvents()
 
+  // Initial Damage
+  appStore.addInitialDamage(damageEvents.initial)
+
   for (let index = 0; index < totalNumCards; index++) {
     // level 1
     if (index < leapHardnessValue) { 

@@ -3,18 +3,23 @@
 
     <header class="game-header mb-8">
       <h1>SOLAR STORM DAMAGE APP</h1>
-      <h1>
+      <h1 v-if="appStore.round >= 0">
         <span class="mr-3">ROUND</span>  
         <span class="badge">{{ appStore.round }}</span>
       </h1>
     </header>
 
-    <section class="text-center mb-8">
+    <section class="text-center mb-8" v-if="appStore.round < 0">
+      <button class="btn-action-green" @click="triggerInitialDamage()" :disabled="loadingEvent">
+        <bx-Icon icon="ant-design:rocket-outlined" size="xxl" />
+        <div> Rooms Initial Damage </div>
+      </button>
+    </section>
+
+    <section class="text-center mb-8" v-if="appStore.round >= 0 && currentDamageEvent">
       <button class="btn-action" @click="triggerDamageCard()" :disabled="loadingEvent">
         <bx-Icon icon="ant-design:security-scan-filled" size="xxl" />
-        <div>
-          Trigger Damage Phase
-        </div> 
+        <div> Trigger Next Damage Round </div> 
       </button>
     </section>
 
@@ -22,8 +27,9 @@
       <div v-if="loadingEvent">
         <scanning-ship></scanning-ship>
       </div>
-      <div v-else> 
-        <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent" v-auto-animate/> 
+      <div v-else>
+        <div v-if="currentDamageEvent"> <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent" v-auto-animate/> </div>
+        <div v-else> Last card </div>
       </div>
     </section>
   </article>
@@ -36,6 +42,11 @@ import { buildDamageEventsDeck } from '@/lib/BuildEventsDeck'
 import BasicDamageEvent from '@/components/BasicDamageEvent.vue'
 import TextAnim from '@/components/testanim.vue'
 import scanningShipVue from "@/components/scanning-ship.vue"
+import { Howl } from 'howler';
+
+// Setup the new Howl.
+const soundClick = new Howl({ src: ['src/assets/sounds/ui-btn-click.mp3'] })
+const soundErr2 = new Howl({ src: ['src/assets/sounds/error2.mp3'] })
 
 const appStore = useAppStore()
 const currentDamageEvent = ref(null)
@@ -43,15 +54,32 @@ const loadingEvent = ref(false)
 const LOADING_EVENT_DELAY = 2000
 
 /**
+ * before starting, we must add 6 damage to rooms
+ */
+function triggerInitialDamage() {
+  soundClick.play()
+  loadingEvent.value = true
+
+  setTimeout(() => {
+    currentDamageEvent.value = appStore.initialDamage
+    loadingEvent.value = false
+    appStore.incrementRound()
+    soundErr2.play()
+  }, LOADING_EVENT_DELAY)
+}
+
+/**
  * On click trigger damage event button
  */
 const triggerDamageCard = () => {
   appStore.incrementRound()
+  soundClick.play()
   loadingEvent.value = true
 
   setTimeout(() => {
     currentDamageEvent.value = appStore.getRoundDamageCard
     loadingEvent.value = false
+    soundErr2.play()
   }, LOADING_EVENT_DELAY)
 
   // currentDamageEvent.value = appStore.getRoundDamageCard
@@ -89,7 +117,8 @@ h2, h1 {
   font-size: 1.3rem;
 }
 
-.btn-action {
+.btn-action,
+.btn-action-green {
   background-color: var(--color-primary);
   color: white;
   border: none;
@@ -99,6 +128,10 @@ h2, h1 {
   font-family: 'Kdam Thmor Pro', sans-serif;
   font-weight: bold;
   cursor: pointer;
+}
+
+.btn-action-green {
+  background-color: rgb(16, 185, 129);
 }
 
 .btn-action:hover {

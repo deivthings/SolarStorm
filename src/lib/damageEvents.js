@@ -1,5 +1,8 @@
 
 export const DamageEvents = () => {
+  // before starting, you must to add 6 of damage
+  const initial = { level: 0, name: 'Initial Damage on six locations', type: 'damage-location', value: 6 }
+
   const basic = {
     level1: { level: 1, name: 'Damage on one location', type: 'damage-location', value: 1 },
     level2: { level: 2, name: 'Damage on two locations', type: 'damage-location', value: 2 },
@@ -13,6 +16,7 @@ export const DamageEvents = () => {
 
   return {
     basic,
-    special
+    special,
+    initial
   }
 }

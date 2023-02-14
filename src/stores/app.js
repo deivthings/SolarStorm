@@ -1,11 +1,13 @@
-import { registerRuntimeHelpers } from '@vue/compiler-core'
 import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore({
   id: 'app',
   state: () => ({
     // Ronda ( cada jugador es una ronda - no todos los jugadores componen una ronda)
-    round: 0,
+    round: -1,
+
+    // Daño inicial de 6
+    initialDamage: null,
 
     // El mazo de daño.
     damageDeck: []
@@ -27,6 +29,11 @@ export const useAppStore = defineStore({
 
     addDamageCard(damageCard) {
       this.damageDeck.push(damageCard)
+    },
+
+    addInitialDamage(_initialDamage) {
+      console.log('iniciando', _initialDamage)
+      this.initialDamage = _initialDamage
     }
   }
 })
