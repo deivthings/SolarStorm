@@ -3,6 +3,7 @@ import App from './App.vue'
 import { createPinia } from 'pinia'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
+import 'animate.css';
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { router } from './router.js'
 import '@purge-icons/generated'

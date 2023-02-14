@@ -4,12 +4,12 @@
     <h2>{{  }}</h2>
     <section class="card-event">
       <ul class="matrix-rooms">
-        <li :class="['room', `room${index + 1}`, {'has-damage': room === 1}]" v-for="(room, index) in rooms" :key="index">
-          <h6 class="room-label">room {{ index + 1 }}</h6>
-          <!-- room value::::: {{ room }} -->
-          <!-- <bx-Icon v-if="room === 1" icon="bi:x-circle-fill" class="text-rose-500" size="xl"/> -->
-          <bx-Icon v-if="room === 1" icon="bx:error" class="text-rose-500" size="xxl"/>
-          
+        <li :class="['room', `room${index + 1}`, {'has-damage animate__animated animate__pulse animate__infinite': room === 1}]" 
+          v-for="(room, index) in rooms" :key="index">
+            <h6 class="room-label">room {{ index + 1 }}</h6>
+            <!-- room value::::: {{ room }} -->
+            <!-- <bx-Icon v-if="room === 1" icon="bi:x-circle-fill" class="text-rose-500" size="xl"/> -->
+            <bx-Icon v-if="room === 1" icon="bx:error" class="text-rose-500" size="xxl"/>
         </li>
       </ul>
     </section>
