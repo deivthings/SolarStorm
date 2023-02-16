@@ -5,6 +5,7 @@ export const useAppStore = defineStore({
   state: () => ({
     // Ronda ( cada jugador es una ronda - no todos los jugadores componen una ronda)
     round: -1,
+    finalRound: undefined,
 
     // Daño inicial de 6
     initialDamage: null,
@@ -34,6 +35,13 @@ export const useAppStore = defineStore({
     addInitialDamage(_initialDamage) {
       console.log('iniciando', _initialDamage)
       this.initialDamage = _initialDamage
+    },
+    
+    resetGame () {
+      this.initialDamage = null
+      this.damageDeck = []
+      this.finalRound = undefined
+      this.round = -1
     }
   }
 })

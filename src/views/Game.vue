@@ -1,58 +1,82 @@
 <template>
-  <article class="wrapper-game">
+  <main class="wrapper-game">
 
-    <header class="game-header mb-8">
-      <h1>SOLAR STORM DAMAGE APP</h1>
+    <header class="game-header mb-8 red">
+      <div class="flex items-center">
+        <div class="text-center bg-error mr-3 rounded-lg p-1 cursor-pointer select-none hover:bg-errordark"
+          @click="exitDialog = true">
+          <bx-Icon icon="mdi:close-octagon-outline" class="text-light-50" size="xl" />
+          <h6 class="text-xs" style="margin-top: -.5rem">exit</h6>
+        </div>
+        <!-- <h1>SOLAR STORM DAMAGE APP</h1> -->
+      </div>
       <h1 v-if="appStore.round >= 0">
-        <span class="mr-3">ROUND</span>  
+        <span class="mr-3">ROUND</span>
         <span class="badge">{{ appStore.round }}</span>
       </h1>
     </header>
 
-    <section class="text-center mb-8" v-if="appStore.round < 0">
-      <button class="btn-action-green" @click="triggerInitialDamage()" :disabled="loadingEvent">
-        <bx-Icon icon="ant-design:rocket-outlined" size="xxl" />
-        <div> Rooms Initial Damage </div>
-      </button>
-    </section>
-
-    <section class="text-center mb-8" v-if="appStore.round >= 0 && currentDamageEvent">
-      <button class="btn-action" @click="triggerDamageCard()" :disabled="loadingEvent">
-        <bx-Icon icon="ant-design:security-scan-filled" size="xxl" />
-        <div> Trigger Next Damage Round </div> 
-      </button>
-    </section>
-
     <section v-auto-animate>
-      <div v-if="loadingEvent">
-        <scanning-ship></scanning-ship>
-      </div>
-      <div v-else>
-        <div v-if="currentDamageEvent"> <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent" v-auto-animate/> </div>
-        <div v-else> Last card </div>
-      </div>
+      <section v-if="exitDialog">
+        <DialogExit @cancel="exitDialog = false" @exit="exitCurrentGame()"/>
+      </section>
+  
+      <article v-else v-auto-animate>
+        <section class="text-center mb-8" v-if="appStore.round < 0">
+          <button class="btn-action-green" @click="triggerInitialDamage()" :disabled="loadingEvent">
+            <bx-Icon icon="ant-design:rocket-outlined" size="xxl" />
+            <div> Rooms Initial Damage </div>
+          </button>
+        </section>
+  
+        <section class="text-center mb-8" v-if="appStore.round >= 0 && currentDamageEvent">
+          <button class="btn-action" @click="triggerDamageCard()" :disabled="loadingEvent">
+            <bx-Icon icon="ant-design:security-scan-filled" size="xxl" />
+            <div> Trigger Next Damage Round </div>
+          </button>
+        </section>
+  
+        <section v-auto-animate>
+          <div v-if="loadingEvent">
+            <scanning-ship></scanning-ship>
+          </div>
+          <div v-else>
+            <div v-if="currentDamageEvent">
+              <BasicDamageEvent v-if="currentDamageEvent" :damage="currentDamageEvent" />
+            </div>
+            <div v-if="appStore.round > appStore.finalRound">
+              <FinalHullBreach />
+            </div>
+          </div>
+        </section>
+      </article>
     </section>
-  </article>
+
+  </main>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from "@vue/runtime-core"
 import { useAppStore } from '@/stores/app'
+import { useRouter } from 'vue-router'
 import { buildDamageEventsDeck } from '@/lib/BuildEventsDeck'
 import BasicDamageEvent from '@/components/BasicDamageEvent.vue'
-import TextAnim from '@/components/testanim.vue'
-import scanningShipVue from "@/components/scanning-ship.vue"
+import FinalHullBreach from '@/components/FinalHullBreach.vue'
+import DialogExit from '@/components/DialogExit.vue'
 import { Howl } from 'howler';
 
-// Setup the new Howl.
+//// DATA ////////////////////////
+const appStore = useAppStore()
+const router = useRouter()
+const currentDamageEvent = ref(null)
+const loadingEvent = ref(false)
+const exitDialog = ref(false)
+const LOADING_EVENT_DELAY = 2000
 const soundClick = new Howl({ src: ['src/assets/sounds/ui-btn-click.mp3'] })
 const soundErr2 = new Howl({ src: ['src/assets/sounds/error2.mp3'] })
 
-const appStore = useAppStore()
-const currentDamageEvent = ref(null)
-const loadingEvent = ref(false)
-const LOADING_EVENT_DELAY = 2000
 
+//// METHODS ////////////////////////
 /**
  * before starting, we must add 6 damage to rooms
  */
@@ -81,14 +105,17 @@ const triggerDamageCard = () => {
     loadingEvent.value = false
     soundErr2.play()
   }, LOADING_EVENT_DELAY)
-
-  // currentDamageEvent.value = appStore.getRoundDamageCard
-  console.warn(appStore.getRoundDamageCard)
 }
 
-/**
- * before mount app, build the events deck
- */
+function exitCurrentGame () {
+  appStore.resetGame()
+  this.currentDamageEvent = null
+  this.exitDialog = false
+  buildDamageEventsDeck()
+  router.push('/')
+}
+
+//// LIFECYCLE HOOKS ////////////////////////
 onBeforeMount(() => buildDamageEventsDeck())
 
 </script>
@@ -97,16 +124,18 @@ onBeforeMount(() => buildDamageEventsDeck())
 .wrapper-game {
   min-height: 100vh;
 }
+
 .game-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: .8rem;
   background-color: rgba(0, 0, 0, .5);
   box-shadow: 1px 1px 10px 1px var(--color-primary);
 }
 
-h2, h1 {
+h2,
+h1 {
   font-family: 'Kdam Thmor Pro', sans-serif;
 }
 
@@ -115,26 +144,5 @@ h2, h1 {
   padding: .3rem .8rem;
   border-radius: 20px;
   font-size: 1.3rem;
-}
-
-.btn-action,
-.btn-action-green {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 1rem;
-  font-size: 1.2em;
-  font-family: 'Kdam Thmor Pro', sans-serif;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-action-green {
-  background-color: rgb(16, 185, 129);
-}
-
-.btn-action:hover {
-  background-color: var(--color-primary-dark);
 }
 </style>

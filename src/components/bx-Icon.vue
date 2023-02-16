@@ -2,7 +2,7 @@
   <!-- https://icon-sets.iconify.design/fa6-solid/ -->
   <!-- <span class="iconify-inline" data-icon="fa6-solid:filter" data-rotate="180deg"></span> -->
   <!-- <span class="iconify-inline" data-icon="fa6-solid:filter" data-width="24" data-height="24"></span> -->
-  <span class="iconify-inline" :data-icon="icon" :data-width="pxSize" :data-height="pxSize"></span>
+  <span v-bind="$attrs" class="iconify-inline" :data-icon="icon" :data-width="pxSize" :data-height="pxSize"></span>
 </template>
 
 <script>

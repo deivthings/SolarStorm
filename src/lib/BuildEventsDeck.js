@@ -6,12 +6,15 @@ import { useAppStore } from '@/stores/app'
  * @param {Number} totalNumCards 
  * @param {Number} leapHardnessValue  8 => 1 damage || 8 => 2 damage || 8 => 3 damage
  */
-export const buildDamageEventsDeck = (totalNumCards = 24, leapHardnessValue = 8) => {
+export const buildDamageEventsDeck = (totalNumCards = 24, leapHardnessValue = 8, finalRound = 24) => {
   const appStore = useAppStore()
   const damageEvents = DamageEvents()
 
   // Initial Damage
   appStore.addInitialDamage(damageEvents.initial)
+
+  // Set final Round
+  appStore.finalRound = finalRound
 
   for (let index = 0; index < totalNumCards; index++) {
     // level 1

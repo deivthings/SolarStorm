@@ -69,7 +69,7 @@ const addDamageToRooms = () => {
   border: 2px solid var(--color-primary);
   border-radius: 20px;
   padding: 3rem;
-  width: clamp(715px, 60%, 800px);
+  width: clamp(350px, 70%, 800px);
   background-color: rgba(0, 0, 0, .5);
   box-shadow: 1px 1px 10px 1px var(--color-primary);
 }
